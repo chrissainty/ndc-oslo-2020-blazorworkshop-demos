@@ -1,0 +1,32 @@
+TAB: Programmatic Nav
+
+- Counter Page with timer
+
+@page "/counter"
+@inject NavigationManager NavManger
+@using System.Timers
+
+<h1>Counter</h1>
+
+<p>Current count: @currentCount</p>
+
+@code {
+    private int currentCount = 0;
+    private Timer timer;
+
+    protected override void OnInitialized()
+    {
+        timer = new Timer(1000);
+        timer.Elapsed += IncrementCounter;
+        timer.Start();
+    }
+
+    private void IncrementCounter(object o, ElapsedEventArgs args)
+    {
+        currentCount++;
+        Console.WriteLine($"Current count: {currentCount}");
+
+        if (currentCount == 5)
+            NavManger.NavigateTo("/");
+    }
+}
