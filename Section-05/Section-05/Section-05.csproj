@@ -5,4 +5,9 @@
     <RootNamespace>Section_05</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Blazored.FluentValidation" Version="1.3.0" />
+    <PackageReference Include="FluentValidation" Version="8.6.2" />
+  </ItemGroup>
+
 </Project>
