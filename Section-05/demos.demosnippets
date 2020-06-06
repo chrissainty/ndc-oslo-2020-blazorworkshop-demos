@@ -1,6 +1,6 @@
-TAB: FluentValidation
+TAB: Before
 
-- Updated TodoItem
+- Updated TodoItem with fluentvalidations
 
 public class TodoItem
 {
@@ -16,3 +16,38 @@ public class TodoItemValidator : AbstractValidator<TodoItem>
         RuleFor(x => x.Importance).GreaterThan(0).WithMessage("Please enter a value greater than 0");
     }
 }
+
+TAB: After
+
+- InputSlider
+
+@inherits InputBase<int>
+
+<input type="range" 
+       @bind="@CurrentValueAsString" /> (@CurrentValueAsString)
+
+@code {
+
+    protected override bool TryParseValueFromString(string value, out int result, out string validationErrorMessage)
+    {
+        if (int.TryParse(value, out result))
+        {
+            validationErrorMessage = null;
+            return true;
+        }
+        else
+        {
+            validationErrorMessage = "Unable to convert value to int";
+            return false;
+        }
+    }
+
+}
+
+- Add additional attributes
+
+@attributes="AdditionalAttributes"
+
+- Pass min max to slider
+
+ min="1" max="10"
