@@ -1,0 +1,37 @@
+@page "/"
+
+<h1>Todo List</h1>
+
+<form @onsubmit="AddTodo">
+
+    <input type="text"
+           placeholder="Enter your task"
+           @bind="_item.Description" />
+
+    <input type="number"
+           placeholder="Set importance"
+           @bind="_item.Importance" />
+
+    <button type="submit">Add</button>
+</form>
+
+<hr />
+
+<ul>
+    @foreach (var todo in _todoItems.OrderBy(x => x.Importance))
+    {
+        <li>@todo.Description (@todo.Importance)</li>
+    }
+</ul>
+
+@code {
+
+    private List<TodoItem> _todoItems = new List<TodoItem>();
+    private TodoItem _item = new TodoItem();
+
+    private void AddTodo()
+    {
+        _todoItems.Add(_item);
+        _item = new TodoItem();
+    }
+}
