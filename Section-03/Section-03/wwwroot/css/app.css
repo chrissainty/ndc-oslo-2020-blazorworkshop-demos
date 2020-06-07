@@ -92,6 +92,11 @@ app {
                 color: white;
             }
 
+            .sidebar .nav-item a.selected {
+                background-color: orange;
+                color: white;
+            }
+
             .sidebar .nav-item a:hover {
                 background-color: rgba(255,255,255,0.1);
                 color: white;
