@@ -1,0 +1,49 @@
+TAB: Create chart component
+
+- Alert
+
+@page "/"
+@inject IJSRuntime Js
+
+<h1>JavaScript Interop</h1>
+
+<input @bind="_message" type="text" />
+<button @onclick="ShowAlert">Show Alert</button>
+
+@code {
+
+    private string _message;
+
+    private async Task ShowAlert()
+    {
+        await Js.InvokeVoidAsync("alert", _message);
+        _message = "";
+    }
+}
+
+- Chart.razor
+
+@inject IJSRuntime js
+
+<canvas @ref="_chartContainer"></canvas>
+
+@code {
+    ElementReference _chartContainer;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await js.InvokeVoidAsync("blazorChartJS.buildChart", _chartContainer);
+        }
+    }
+}
+
+- Add script tags
+
+<script src="_content/blazor.chartjs/chart.min.js"></script>
+<script src="_content/blazor.chartjs/chart-wrapper.js"></script>
+
+- Namespace
+
+@using Blazor.ChartJS

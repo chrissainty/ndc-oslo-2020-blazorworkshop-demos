@@ -1,0 +1,54 @@
+﻿@page "/infinite-scroll"
+@inject IJSRuntime JS
+
+<h3>Infinite Scroll</h3>
+<hr />
+
+<ul @ref="_list" class="scrollable">
+    @foreach (var item in _data)
+    {
+        <li>@item</li>
+    }
+</ul>
+
+@code {
+
+    private ElementReference _list;
+    private List<string> _data = new List<string>();
+    private static Action _triggerNextLoad;
+
+    protected override void OnInitialized()
+    {
+        GenerateData();
+        _triggerNextLoad = LoadNewData;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("blazorInterop.registerOnScrollListener", _list);
+        }
+    }
+
+    [JSInvokable("TriggerNextLoad")]
+    public static void TiggerNextLoad() => _triggerNextLoad.Invoke();
+
+    private void LoadNewData()
+    {
+        _data.Add("--------------------------------");
+        _data.Add("--- Loaded New Data ---");
+        _data.Add("--------------------------------");
+
+        GenerateData();
+        StateHasChanged();
+    }
+
+    private void GenerateData()
+    {
+        for (int i = 0; i < 50; i++)
+        {
+            _data.Add(Guid.NewGuid().ToString());
+        }
+    }
+}
