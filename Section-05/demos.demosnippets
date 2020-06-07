@@ -13,7 +13,7 @@ public class TodoItemValidator : AbstractValidator<TodoItem>
     public TodoItemValidator()
     {
         RuleFor(x => x.Description).NotEmpty().WithMessage("Please enter a description");
-        RuleFor(x => x.Importance).GreaterThan(0).WithMessage("Please enter a value greater than 0");
+        RuleFor(x => x.Importance).GreaterThan(0).LessThan(11).WithMessage("Please enter a value between 1 and 10");
     }
 }
 
