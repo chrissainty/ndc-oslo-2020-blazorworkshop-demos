@@ -9,5 +9,6 @@ window.blazorInterop = {
                 }
             }
         });
+        console.log('Listener Added');
     }
 }
